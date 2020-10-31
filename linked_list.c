@@ -54,6 +54,13 @@ int main ( int argc, const char * argv[] ) {
         printf( current->next ? ", " : "\n" );
         current = current->next;
     }
+    current = start;
+    while (current) {
+        next = current-> next;
+        printf( "%d", current->number );
+        free( current );
+        current = next;
+    }
 
     return 0;
 }
