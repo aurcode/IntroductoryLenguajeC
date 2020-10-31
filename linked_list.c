@@ -77,7 +77,9 @@ int main ( int argc, const char * argv[] ) {
                 printf("El numero del nodo a eliminar es %d\n", current->number);
                 //printf("%d\n", current->next);
                 if(!index) {
-                    printf("Es el primero");
+                    start=current->next;
+                    free( current );
+                    current=0;
                 } else {
                     aux = current->next;
                     free( current ); // Libera el nodo actual
