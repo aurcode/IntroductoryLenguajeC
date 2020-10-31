@@ -24,7 +24,7 @@ int main ( int argc, const char * argv[] ) {
     // Current puntero auxiliar
 
     char goOn; // Bandera de continuacion, goOn puede ser int tambien
-    int listSize = 0, number; //listSize es el tamaño de la lista
+    int listSize = 0, number, index, currentIndex; //listSize es el tamaño de la lista
 
     do {
         printf("La lista contiene %d nodos. Ingrese el siguiente número (0 para finalizar)\n", listSize);
@@ -59,11 +59,38 @@ int main ( int argc, const char * argv[] ) {
         current = current->next; // Para que la repitiva avance
     }
 
+    printf("\n\n\nLe gustaria eliminar algún nodo? (Escriba 1 para si, escriba 0 para no)\n");
+    scanf("%d",&goOn);
+
+    if( goOn ) {
+        printf("\n\nEscriba el index del nodo a eliminar: \n");
+        scanf("%d", &index);
+        printf("\n\n Se eliminara este index %d \n", index);
+        current = start;
+        currentIndex = 0;
+
+        while (current) {
+            next = current->next;
+            //printf("Nodo actual %d\n", current->number );
+            //printf("Index actual %d\n", current);
+            if(currentIndex==index) {
+                printf("Eliminara este nodo %d\n", current->number);
+                current = 0;
+            } else {
+                currentIndex++;
+                current = next;
+                //printf("next %d\n", next);
+                if(!next) {
+                    printf("El index %d es inexistente.", index);
+                }
+            }
+        }
+    }
+
     // Liberar memoria
     current = start;
     while (current) {
         next = current-> next;
-        printf( "%d", current->number );
         free( current ); // Libera el nodo actual
         current = next;
     }
