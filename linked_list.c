@@ -20,7 +20,7 @@ NODE * createNode( int number ){
 
 int main ( int argc, const char * argv[] ) {
     // Creando la lista
-    NODE * start = NULL, *current, *next; // Crea puntero start con NULL para poner la lista vacia
+    NODE * start = NULL, *current, *next, *aux; // Crea puntero start con NULL para poner la lista vacia
     // Current puntero auxiliar
 
     char goOn; // Bandera de continuacion, goOn puede ser int tambien
@@ -65,7 +65,7 @@ int main ( int argc, const char * argv[] ) {
     if( goOn ) {
         printf("\n\nEscriba el index del nodo a eliminar: \n");
         scanf("%d", &index);
-        printf("\n\n Se eliminara este index %d \n", index);
+        //printf("\n\n Se eliminara este index %d \n", index);
         current = start;
         currentIndex = 0;
 
@@ -74,8 +74,25 @@ int main ( int argc, const char * argv[] ) {
             //printf("Nodo actual %d\n", current->number );
             //printf("Index actual %d\n", current);
             if(currentIndex==index) {
-                printf("Eliminara este nodo %d\n", current->number);
-                current = 0;
+                printf("El numero del nodo a eliminar es %d\n", current->number);
+                //printf("%d\n", current->next);
+                if(!index) {
+                    printf("Es el primero");
+                } else {
+                    aux = current->next;
+                    free( current ); // Libera el nodo actual
+                    current = start;
+                    index = 0;
+                    while(current) {
+                        //printf("current->number, %d", current->number);
+                        current = current->next;
+                        if(currentIndex-2==index) {
+                            current->next = aux;
+                            current=0;
+                        }
+                        index++;
+                    }
+                }
             } else {
                 currentIndex++;
                 current = next;
@@ -85,6 +102,16 @@ int main ( int argc, const char * argv[] ) {
                 }
             }
         }
+    }
+
+
+    current = start;  // Inicializa el nodo current con el inicio;
+    printf( "\n\nNueva lista de numeros: \n" );
+    while (current) { // Mientras current no sea null
+        printf( "%d", current->number ); // Desreferencia current accede a number
+        printf( current->next ? ", " : "\n" ); // Pregunta si existe numero siguiente
+        // Si es verdadero pone una , y sigue con el siguiente valor sino pone \n
+        current = current->next; // Para que la repitiva avance
     }
 
     // Liberar memoria
