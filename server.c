@@ -3,6 +3,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int main (int argc, const char * argv[]){
   if (argc > 1) {
@@ -17,23 +19,26 @@ int main (int argc, const char * argv[]){
     server.sin_addr.s_addr = INADDR_ANY;
     bzero( &(server.sin_zero), 8);
 
-    if ( ( server_socket = socket( AF_INET, SOCK_STREAM, 0 ) ) ) {
-      perror("No pude abrir el Socket\n");
+    if ( ( server_socket = socket( AF_INET, SOCK_STREAM, 0 ) ) == -1 ) {
+      printf("No pude abrir el Socket\n");
       return -1;
     }
 
     if ( bind(server_socket, (struct sockaddr *) &server, sizeof(struct sockaddr) ) ) {
-      perror("No pude abrir el puerto %s\n", argv[1]);
+      printf("No pude abrir el puerto %s\n", argv[1]);
       return -2;
     }
 
     if ( listen(server_socket, 5) == -1 ) {
-      perror("No pude ponerme en modo esucha\n");
+      printf("No pude ponerme en modo esucha\n");
       return -3;
     }
 
     longitud_cliente = sizeof(struct sockaddr_in);
-    if ( (client_socket = accept(server, socket, (struct sockaddr *) &client, &longitud_cliente)) == -1 ) {
+
+    printf("Esperando clientes...\n");
+
+    if ( (client_socket = accept(server_socket, (struct sockaddr *) &client, &longitud_cliente)) == -1 ) {
       printf("No pudimos aceptar una conexion\n");
       return -4;
     }
@@ -48,7 +53,7 @@ int main (int argc, const char * argv[]){
     shutdown(client_socket, 2);
     shutdown(server_socket, 2);
   } else {
-    printf("Por favor indique el puerto");
+    printf("Por favor indique el puerto\n");
     return -5;
   }
 
